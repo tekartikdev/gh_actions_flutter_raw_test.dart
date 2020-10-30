@@ -65,7 +65,8 @@ void main() {
       if (await addDependency(dir, 'sqflite')) {
         await _iosBuild();
         await _androidBuild();
+        await packageRunCi(dir);
       }
-    }, timeout: Timeout(Duration(minutes: 5)));
+    }, timeout: Timeout(Duration(minutes: 10)));
   });
 }
