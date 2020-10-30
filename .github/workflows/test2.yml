@@ -1,4 +1,4 @@
-name: Test1
+name: Test2
 on: push
 jobs:
   test:
@@ -18,3 +18,4 @@ jobs:
           channel: ${{ matrix.flutter }}
       - run: dart --version
       - run: flutter --version
+      - run: flutter upgrade
