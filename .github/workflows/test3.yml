@@ -1,6 +1,5 @@
 name: Test3
 on: push
-  Unexpected value 'working-directory'
 
 jobs:
   test:
