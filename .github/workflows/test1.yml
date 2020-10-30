@@ -1,3 +1,5 @@
+name: Test1
+on: push
 jobs:
   test:
     name: Test on ${{ matrix.os }}
