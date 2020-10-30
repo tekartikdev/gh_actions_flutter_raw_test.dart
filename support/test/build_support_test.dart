@@ -45,7 +45,12 @@ void main() {
         path: dir,
       );
       await packageRunCi(dir);
-    });
+    }, timeout: Timeout(Duration(minutes: 5)));
+    test('run_ci', () async {
+      await _ensureCreate();
+      await packageRunCi(dir);
+    }, timeout: Timeout(Duration(minutes: 5)));
+
     test('build ios', () async {
       await _ensureCreate();
       await _iosBuild();
