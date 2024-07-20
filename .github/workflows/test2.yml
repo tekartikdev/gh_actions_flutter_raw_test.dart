@@ -6,11 +6,20 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        flutter: [stable, beta, dev]
+        include:
+          - os: ubuntu-latest
+            flutter: stable
+          - os: ubuntu-latest
+            flutter: beta
+          - os: ubuntu-latest
+            flutter: dev
+          - os: windows-latest
+            flutter: stable
+          - os: macos-latest
+            flutter: stable
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v1
+      - uses: actions/setup-java@v4
         with:
           java-version: '11.x'
       - uses: subosito/flutter-action@v1
