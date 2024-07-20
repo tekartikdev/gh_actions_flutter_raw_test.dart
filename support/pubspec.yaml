@@ -4,11 +4,11 @@ description: A utility test project
 # homepage: https://www.example.com
 
 environment:
-  sdk: '>=2.10.0-0 <3.0.0'
+  sdk: ^3.4.0
 
 dependencies:
   path: ^1.7.0
-  dev_test: '>=0.13.4-dev.1'
+  dev_build: '>=0.13.4-dev.1'
   test:
 
 dev_dependencies:

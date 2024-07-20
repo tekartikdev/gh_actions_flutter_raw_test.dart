@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dev_test/package.dart';
+import 'package:dev_build/package.dart';
 import 'package:flutter_raw_test_support/build_support.dart';
 import 'package:path/path.dart';
 import 'package:process_run/shell_run.dart';

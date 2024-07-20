@@ -1,11 +1,12 @@
-import 'package:dev_test/build_support.dart';
+import 'package:dev_build/build_support.dart';
 
-export 'package:dev_test/build_support.dart';
+export 'package:dev_build/build_support.dart';
 
 /// Returns true if added
 Future<bool> addDependency(String dir, String dependency,
-        {String dependencyLine}) =>
-    pathPubspecAddDependency(dir, dependency, dependencyLine: dependencyLine);
+        {String? dependencyLine}) =>
+    pathPubspecAddDependency(dir, dependency,
+        dependencyLines: dependencyLine == null ? null : [dependencyLine]);
 
 Future initFlutter() => buildInitFlutter();
 
