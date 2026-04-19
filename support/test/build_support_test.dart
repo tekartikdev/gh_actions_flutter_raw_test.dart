@@ -6,6 +6,14 @@ import 'package:path/path.dart';
 import 'package:process_run/shell_run.dart';
 import 'package:test/test.dart';
 
+Future<T> msTimed<T>(Future<T> Function() action, {String? tag}) async {
+  var stopwatch = Stopwatch()..start();
+  var result = await action();
+  stopwatch.stop();
+  stdout.writeln('${tag ?? 'timed'}: ${stopwatch.elapsedMilliseconds} ms');
+  return result;
+}
+
 void main() {
   group('flutter test', () {
     var dir = join('.dart_tool', 'raw_flutter_test1', 'test', 'project');
@@ -40,33 +48,43 @@ void main() {
     }
 
     test('create', () async {
-      await initFlutter();
-      await flutterCreateProject(
-        path: dir,
-      );
-      await packageRunCi(dir);
+      await msTimed(() async {
+        await initFlutter();
+        await flutterCreateProject(
+          path: dir,
+        );
+        await packageRunCi(dir);
+      }, tag: 'create and run_ci');
     }, timeout: Timeout(Duration(minutes: 5)));
     test('run_ci', () async {
       await _ensureCreate();
-      await packageRunCi(dir);
+      await msTimed(() async {
+        await packageRunCi(dir);
+      }, tag: 'run_ci');
     }, timeout: Timeout(Duration(minutes: 5)));
 
     test('build ios', () async {
       await _ensureCreate();
-      await _iosBuild();
+      await msTimed(() async {
+        await _iosBuild();
+      }, tag: 'build ios');
     }, timeout: Timeout(Duration(minutes: 5)));
 
     test('build android', () async {
       await _ensureCreate();
-      await _androidBuild();
+      await msTimed(() async {
+        await _androidBuild();
+      }, tag: 'build android');
     }, timeout: Timeout(Duration(minutes: 5)));
     test('add sqflite', () async {
       await _ensureCreate();
-      if (await addDependency(dir, 'sqflite')) {
-        await _iosBuild();
-        await _androidBuild();
-        await packageRunCi(dir);
-      }
+      await msTimed(() async {
+        if (await addDependency(dir, 'sqflite')) {
+          await _iosBuild();
+          await _androidBuild();
+          await packageRunCi(dir);
+        }
+      }, tag: 'add sqflite ios/android build and ci');
     }, timeout: Timeout(Duration(minutes: 10)));
   });
 }
