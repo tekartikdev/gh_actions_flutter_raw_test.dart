@@ -1,6 +1,6 @@
 import 'package:dev_build/package.dart';
 
 Future<void> main() async {
-  // Same as smallest ci for now
+  // Ci on this package only
   await packageRunCi('.');
 }
