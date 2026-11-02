@@ -14,6 +14,10 @@ Future<T> msTimed<T>(Future<T> Function() action, {String? tag}) async {
   return result;
 }
 
+/// A first android build (gradle and android sdk parts downloads) takes up to
+/// 6 minutes on a windows runner, over the 5 minutes used before.
+const _buildTimeout = Timeout(Duration(minutes: 15));
+
 void main() {
   group('flutter test', () {
     var dir = join('.dart_tool', 'raw_flutter_test1', 'test', 'project');
@@ -68,14 +72,14 @@ void main() {
       await msTimed(() async {
         await _iosBuild();
       }, tag: 'build ios');
-    }, timeout: Timeout(Duration(minutes: 5)));
+    }, timeout: _buildTimeout);
 
     test('build android', () async {
       await _ensureCreate();
       await msTimed(() async {
         await _androidBuild();
       }, tag: 'build android');
-    }, timeout: Timeout(Duration(minutes: 5)));
+    }, timeout: _buildTimeout);
     test('add sqflite', () async {
       await _ensureCreate();
       await msTimed(() async {
@@ -85,6 +89,6 @@ void main() {
           await packageRunCi(dir);
         }
       }, tag: 'add sqflite ios/android build and ci');
-    }, timeout: Timeout(Duration(minutes: 10)));
+    }, timeout: _buildTimeout);
   });
 }
